@@ -1,0 +1,31 @@
+Package: idgeo
+Title: Geospatial Tools for ID Research
+Version: 0.0.0.9000
+Authors@R: 
+    c(person("Michael", "DeWitt", , "medewitt@wakehealth.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-8940-1967")),
+      person("Jennifer", "Wenner", , "jwenner@wakehealth.edu", role = c("aut"),
+           comment = c(ORCID = "0009-0002-6708-8847")))
+Description: Provides functions to assist in geospatial analysis for ID Research. 
+    This includes assistance with building leaflet plots, to data sets used for 
+    geospatial analysis, to different functions for calculating and manipulating 
+    items of interest.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Depends: R (>= 2.10)
+Imports: 
+    htmltools,
+    lazyeval,
+    leaflet,
+    leaflet.extras,
+    matrixStats,
+    sf,
+    htmlwidgets,
+    scales,
+    idstyle,
+    idtools
+Remotes:
+    wf-id/idstyle
+    wf-id/idtools

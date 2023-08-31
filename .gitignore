@@ -1,0 +1,16 @@
+.Rproj.user
+.Ruserdata
+.Rhistory
+.Rhistoryt
+/data/
+/output/
+/report/*.html
+docs/
+_site/
+_book/
+.quarto/
+.DS_Store
+_*.local
+.venv/
+*_cache/
+env/

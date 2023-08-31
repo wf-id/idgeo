@@ -1,0 +1,48 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- Please keep this updated! You'll need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
+
+# idgeo
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of R package `idgeo` is to combine all mapping functions and ID
+Research specific mapping tools into a single place
+
+## Installation
+
+You can install the development version of `idgeo` like so:
+
+``` r
+devtools::install_github('wf-id/idgeo')
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(idgeo)
+library(dplyr)
+
+# create choropleth leaflet maps quickly without having to define palettes and legends
+
+
+# some shapefiles are built in
+data("sf_nc_counties")
+
+# a map with a zoomed out mini map
+prettyLeaflet(sf_nc_counties, mini = T) |> 
+  # of NC land area (numeric will use viridis color palette)
+  addPrettyPolygons(zcol = 'ALAND') |>
+  # with a nice title
+  addTitleControl('North Carolina', 'Land Area (sq meters)')
+
+# mapping a categorical variable (uses Okabe-Ito, colorblind safe palette)
+prettyLeaflet(sf_nc_counties |> 
+                dplyr::mutate(`Over 1b?` = dplyr::if_else(ALAND > 1000000000, 'Yes', 'No'))) |> 
+  addPrettyPolygons(zcol = 'Over 1b?',
+                    legendtitle = 'Land Area > 1b sq m') |>
+  addTitleControl('North Carolina', 'Land Area (sq meters)')
+```
