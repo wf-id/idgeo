@@ -397,31 +397,6 @@ useFontAwesome <- function(map){
 }
 
 
-
-#' Use Wake CSS
-#'
-#' @description  Applies header info for using wake css within a leaflet
-#' map. This is only needed for free standing leaflet maps.
-#' **This is not needed if you are including a map within a quarto
-#' `idreport` from the `idstyle` package (applied within automatically)**
-#'
-#' @param map a leaflet map
-#'
-#' @export
-useWakeCss <- function(map){
-
-  css_loc <- idstyle::get_css_location()
-  css <- paste0('<style type = "text/css">\n',
-                idtools::generate_template(css_loc,
-                                           glue_open = '{{{',
-                                           glue_close = '}}}'),
-                '\n</style>')
-
-  map |>
-    htmlwidgets::prependContent(htmltools::HTML(css))
-
-}
-
 #' Pretty Leaflet Maps
 #'
 #' @description  This function can be used in place of
