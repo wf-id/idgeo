@@ -19,8 +19,6 @@
 #' \item{CentralTo}{City that the ZIP is central to, if applicable}
 #'
 #' }
-#'
-#'
 "local_zips"
 
 #' North Carolina Counties
@@ -35,7 +33,6 @@
 #' \item{county_code}{County FIPS Code (3-digits, no State ID)}
 #' \item{GEOID}{State-County FIPS Code}
 #' }
-
 "nc_counties"
 
 
@@ -54,7 +51,6 @@
 #' \item{GEOID}{State-County FIPS Code}
 #' \item{geometry}{County geometry}
 #' }
-
 "sf_nc_counties"
 
 
@@ -71,7 +67,6 @@
 #' \item{GEOID}{Tract FIPS Code}
 #' \item{geometry}{Tract geometry}
 #' }
-
 "sf_nc_tracts"
 
 #' North Carolina ZCTAS with Geometry
@@ -87,5 +82,4 @@
 #' \item{ZIP}{ZIP Code}
 #' \item{geometry}{ZCTA geometry}
 #' }
-
 "sf_nc_zips"

@@ -5,9 +5,13 @@
 <!--- For many changes, use level 2 sections headers:                       --->
 <!---         e.g. breaking changes, new features, bug fixes, etc           --->
 
+# Changes in version 0.0.2
+
+* New function: `addLayerControlTitle()` for adding a title to a leaflet layer control
+
 # Changes in version 0.0.1
 
-* Removing `useWakeCss` (moving to `idstyle` package since it can be used for any html widget, not just maps)
+* Removing `useWakeCss()` (moving to `idstyle` package since it can be used for any html widget, not just maps)
 
 # idgeo (development version 0.0.0.9000)
 

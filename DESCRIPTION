@@ -1,6 +1,6 @@
 Package: idgeo
 Title: Geospatial Tools for ID Research
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     c(person("Michael", "DeWitt", , "medewitt@wakehealth.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8940-1967")),
@@ -13,7 +13,7 @@ Description: Provides functions to assist in geospatial analysis for ID Research
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Depends: R (>= 2.10)
 Imports: 
     htmltools,

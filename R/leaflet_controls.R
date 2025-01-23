@@ -30,8 +30,8 @@ addIDProviderTiles <- function(map,
                                provider = NULL,
                                ...){
 
-  if(missing(provider)) provider <- ifelse(minimal, 'Stadia.AlidadeSmooth',
-                                           'Stadia.OSMBright')
+  if(missing(provider)) provider <- ifelse(minimal, 'CartoDB.Voyager', #Stadia required API key
+                                           'OpenStreetMap')
 
   leaflet::addProviderTiles(map = map, provider = provider,
                             options = options, ...)
@@ -304,7 +304,7 @@ addTitleControl <- function(map, title = NULL, subtitle = NULL,
                             layerId = NULL,
                             ...){
 
-  out_html <- idgeo::htmlTitle(title = title, subtitle = subtitle, ...)
+  out_html <- htmlTitle(title = title, subtitle = subtitle, ...)
 
   map |> leaflet::addControl(html = out_html, position = position,
                              className = 'info', layerId = layerId)
@@ -449,26 +449,26 @@ prettyLeaflet <- function(...,
   requireNamespace("leaflet", quietly = TRUE)
 
   addPT <- function(map, yes){
-    if(yes) idgeo::addIDProviderTiles(map,minimal = tilesminimal) else map
+    if(yes) addIDProviderTiles(map,minimal = tilesminimal) else map
   }
   alignC <- function(map, yes){
-    if(yes) idgeo::alignControls(map) else map
+    if(yes) alignControls(map) else map
   }
   legendFNA<- function(map, yes){
-    if(yes) idgeo::legendFixNA(map) else map
+    if(yes) legendFixNA(map) else map
   }
   leafletF <- function(map, yes){
-    if(yes) idgeo::leafletFont(map) else map
+    if(yes) leafletFont(map) else map
   }
   addFS <- function(map, yes){
     requireNamespace("leaflet.extras", quietly = TRUE)
     if(yes)leaflet.extras::addFullscreenControl(map) else map
   }
   multiBL <- function(map, yes){
-    if(yes) idgeo::multiBaseLegends(map) else map
+    if(yes) multiBaseLegends(map) else map
   }
   idBut <- function(map, yes){
-    if(yes) idgeo::addIdeasButton(map, position = btnposition,
+    if(yes) addIdeasButton(map, position = btnposition,
                                   extrainfo = btnextrainfo) else map
   }
 
@@ -483,7 +483,7 @@ prettyLeaflet <- function(...,
     leafletF(yes = font) |>
     addFS(yes = fullscreen) |>
     multiBL(yes = multibase) |>
-    idgeo::useFontAwesome()|>
+    useFontAwesome()|>
     idBut(yes = idbtn) |>
     addMini(yes = mini)
 
@@ -515,19 +515,20 @@ quickPal <- function(x, palette = NULL, percent = FALSE,
   stopifnot(is.logical(percent))
   stopifnot(is.logical(reverse))
 
-  zcolclass <- class(x)
 
   if(is.null(domain)) domain <- setdomain(x, percent = percent)
 
   pal <- if(percent){
 
+    stopifnot(is.numeric(x))
+
     if(is.null(palette)) palette <- 'viridis'
 
-    idgeo::colorPercent(palette = palette,
+    colorPercent(palette = palette,
                         domain = domain,
                         reverse = reverse)
 
-  } else if('numeric' %in% zcolclass){
+  } else if(is.numeric(x)){
 
     if(is.null(palette)) palette <- 'viridis'
 
@@ -653,7 +654,7 @@ addPrettyPolygons <- function(map, zcol = NULL,
 
     if(is.null(reverse)) reverse <- FALSE
 
-    pal <- idgeo::quickPal(x = x, palette = palette,
+    pal <- quickPal(x = x, palette = palette,
                            percent = percent,
                            reverse = reverse,
                            domain = domain)
@@ -668,7 +669,7 @@ addPrettyPolygons <- function(map, zcol = NULL,
                                      pal = pal,
                                      values = domain,
                                      title = legendtitle,
-                                     labFormat = if(percent){idgeo::labelFormatPercent()
+                                     labFormat = if(percent){labelFormatPercent()
                                      }else{leaflet::labelFormat()}
       )
 
@@ -686,7 +687,7 @@ addPrettyPolygons <- function(map, zcol = NULL,
   if(is.null(highlightOptions)) highlightOptions <-
       leaflet::highlightOptions(stroke = T, weight = 3, fillOpacity = 0.67)
 
-  if(is.null(labelOptions)) labelOptions <- idgeo::IDLabelOptions()
+  if(is.null(labelOptions)) labelOptions <- IDLabelOptions()
 
   if(!is.null(label)){
 
@@ -788,4 +789,33 @@ addIdeasButton <- function(map, position = 'bottomleft', extrainfo = NULL){
     htmlwidgets::appendContent(info.box)
 
   return(m)
+}
+
+
+#' Add Title to Leaflet Layer Control
+#'
+#' @description  Adds a title to a leaflet layer control
+#'
+#' @param map a leaflet map
+#' @param title string, title of control, default 'Color Map By:'
+#' @param type layer control type, either 'base' or 'overlay', default 'base'
+#' @param style string, html style string default \code{text-align:center;font-size:larger;}
+#'
+#' @export
+addLayerControlTitle <- function(map, title = 'Color Map By:',
+                                 type = c('base', 'overlay'),
+                                 style = "text-align:center;font-size:larger;"){
+
+  type <- match.arg(type)
+
+  modifier <- ifelse(type=='base', 'list', 'overlays')
+
+
+map |>
+  htmlwidgets::onRender(paste0("
+        function() {
+            $('.leaflet-control-layers-",modifier,"').prepend('<label style=\"",style,"\">",title,"</label>');
+        }
+    "))
+
 }
